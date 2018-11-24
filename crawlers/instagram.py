@@ -3,6 +3,7 @@ import json
 import os
 import pprint
 import sys
+import re
 
 import aiohttp
 from bs4 import BeautifulSoup
@@ -11,7 +12,8 @@ TIME_OUT = 1
 
 
 def is_instagram(url):
-    return True
+    pattern = '^(https?://)?www.instagram.com'
+    return re.match(pattern, url)
 
 
 async def fetch(session, url):
