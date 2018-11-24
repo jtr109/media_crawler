@@ -1,14 +1,18 @@
 import asyncio
 import json
+import os
 import pprint
 import sys
 
 import aiohttp
 from bs4 import BeautifulSoup
 
+TIME_OUT = 1
 
-async def fetch(session, url, proxy=None):
-    async with session.get(url, proxy=proxy) as response:
+
+async def fetch(session, url):
+    proxy = os.environ.get('MC_PROXY')
+    async with session.get(url, timeout=TIME_OUT, proxy=proxy) as response:
         return await response.text()
 
 
@@ -63,9 +67,9 @@ def parse(html):
     return result
 
 
-async def crawl(url, proxy=None):
+async def crawl(url):
     async with aiohttp.ClientSession() as session:
-        html = await fetch(session, url, proxy)
+        html = await fetch(session, url)
         return parse(html)
 
 
@@ -79,7 +83,7 @@ if __name__ == "__main__":
     proxy = 'http://127.0.0.1:1087'
 
     async def main():
-        result = await crawl(url, proxy)
+        result = await crawl(url)
         pp = pprint.PrettyPrinter(indent=2)
         pp.pprint(result)
 

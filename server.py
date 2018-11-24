@@ -1,5 +1,6 @@
 from aiohttp import web
 import json
+from crawlers import instagram
 
 
 async def handle(request):
@@ -9,7 +10,11 @@ async def handle(request):
 
 async def parse_media(request):
     data = await request.json()
-    return web.json_response(data)
+    url = data.get('url')
+    if not url:
+        return web.json_response(dict(status='error', message='url required'))
+    result = await instagram.crawl(url=url)
+    return web.json_response(dict(status='success', objects=result))
 
 
 if __name__ == "__main__":
