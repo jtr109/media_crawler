@@ -43,10 +43,10 @@ def _get_nodes(shortcode_media):
     else:
         return (s for s in (shortcode_media, ))
 
+
 def _get_src_from_node(node):
-    if node.get('is_video', False):
-        return node.get('video_url', '')
-    return node
+    key = 'video_url' if node.get('is_video', False) else 'display_url'
+    return node.get(key, '')
 
 
 def parse(html):
@@ -57,7 +57,8 @@ def parse(html):
     data_dict = json.loads(json_data)
     shortcode_media = _get_shortcode_media(data_dict)
     nodes = _get_nodes(shortcode_media)
-    result = list(nodes)
+    src_list = map(_get_src_from_node, nodes)
+    result = list(src_list)
     return result
 
 
@@ -69,8 +70,8 @@ async def crawl(url, proxy=None):
 
 if __name__ == "__main__":
     # url = 'https://www.instagram.com/p/BqarTuBHdcC/?utm_source=ig_share_sheet&igshid=15n3gxl891200'  # 单图片
-    # url = 'https://www.instagram.com/p/BqcrITsAlqT/?utm_source=ig_share_sheet&igshid=dsxz8l9zogcv'
-    url = 'https://www.instagram.com/p/Bqe1lQ_jsKr/?utm_source=ig_share_sheet&igshid=cbs6or0xuzao'  # 四连图片
+    url = 'https://www.instagram.com/p/BqcrITsAlqT/?utm_source=ig_share_sheet&igshid=dsxz8l9zogcv'  # 二连视频
+    # url = 'https://www.instagram.com/p/Bqe1lQ_jsKr/?utm_source=ig_share_sheet&igshid=cbs6or0xuzao'  # 四连图片
     proxy = 'http://127.0.0.1:1087'
 
     async def main():
