@@ -1,6 +1,7 @@
 import asyncio
 import json
 import pprint
+import sys
 
 import aiohttp
 from bs4 import BeautifulSoup
@@ -69,9 +70,12 @@ async def crawl(url, proxy=None):
 
 
 if __name__ == "__main__":
-    # url = 'https://www.instagram.com/p/BqarTuBHdcC/?utm_source=ig_share_sheet&igshid=15n3gxl891200'  # 单图片
-    url = 'https://www.instagram.com/p/BqcrITsAlqT/?utm_source=ig_share_sheet&igshid=dsxz8l9zogcv'  # 二连视频
-    # url = 'https://www.instagram.com/p/Bqe1lQ_jsKr/?utm_source=ig_share_sheet&igshid=cbs6or0xuzao'  # 四连图片
+    if len(sys.argv) > 1:
+        url = sys.argv[1]
+    else:
+        # url = 'https://www.instagram.com/p/BqarTuBHdcC/?utm_source=ig_share_sheet&igshid=15n3gxl891200'  # 单图片
+        url = 'https://www.instagram.com/p/BqcrITsAlqT/?utm_source=ig_share_sheet&igshid=dsxz8l9zogcv'  # 二连视频
+        # url = 'https://www.instagram.com/p/Bqe1lQ_jsKr/?utm_source=ig_share_sheet&igshid=cbs6or0xuzao'  # 四连图片
     proxy = 'http://127.0.0.1:1087'
 
     async def main():
