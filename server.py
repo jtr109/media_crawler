@@ -1,4 +1,5 @@
 from aiohttp import web
+import json
 
 
 async def handle(request):
@@ -7,7 +8,7 @@ async def handle(request):
 
 
 async def parse_media(request):
-    data = {'status': 'success'}
+    data = await request.json()
     return web.json_response(data)
 
 
