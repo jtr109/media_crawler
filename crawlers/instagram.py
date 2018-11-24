@@ -10,6 +10,10 @@ from bs4 import BeautifulSoup
 TIME_OUT = 1
 
 
+def is_instagram(url):
+    return True
+
+
 async def fetch(session, url):
     proxy = os.environ.get('MC_PROXY')
     async with session.get(url, timeout=TIME_OUT, proxy=proxy) as response:

@@ -13,8 +13,10 @@ async def parse_media(request):
     url = data.get('url')
     if not url:
         return web.json_response(dict(status='error', message='url required'))
-    result = await instagram.crawl(url=url)
-    return web.json_response(dict(status='success', objects=result))
+    if instagram.is_instagram(url):
+        result = await instagram.crawl(url=url)
+        return web.json_response(dict(status='success', objects=result))
+    return web.json_response(dict(status='error', message='cannot be handled'))
 
 
 if __name__ == "__main__":
